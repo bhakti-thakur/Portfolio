@@ -1,0 +1,142 @@
+/* @import "tailwindcss"; */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* Power Apps Color Palette */
+    --background: 0 0% 96%;
+    --foreground: 0 0% 20%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 20%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 20%;
+
+    /* Power Apps Purple */
+    --primary: 300 50% 30%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 20%;
+
+    --muted: 0 0% 92%;
+    --muted-foreground: 0 0% 45%;
+
+    --accent: 207 90% 54%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 0 0% 88%;
+    --input: 0 0% 88%;
+    --ring: 300 50% 30%;
+
+    --radius: 0.25rem;
+
+    /* Power Apps Specific */
+    --header-bg: 300 50% 30%;
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 30%;
+    --sidebar-primary: 300 50% 30%;
+    --sidebar-primary-foreground: 0 0% 100%;
+    --sidebar-accent: 300 50% 95%;
+    --sidebar-accent-foreground: 300 50% 30%;
+    --sidebar-border: 0 0% 92%;
+    --sidebar-ring: 300 50% 30%;
+
+    /* Status Colors */
+    --success: 142 76% 36%;
+    --success-foreground: 0 0% 100%;
+    --warning: 45 93% 47%;
+    --warning-foreground: 0 0% 20%;
+    --info: 207 90% 54%;
+    --info-foreground: 0 0% 100%;
+
+    /* Badge Colors */
+    --badge-expert: 142 76% 36%;
+    --badge-advanced: 207 90% 54%;
+    --badge-intermediate: 25 95% 53%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* Power Apps scrollbar */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: hsl(var(--muted));
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: hsl(var(--muted-foreground) / 0.3);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: hsl(var(--muted-foreground) / 0.5);
+  }
+}
+
+/* Power Apps specific utilities */
+@layer utilities {
+  .power-header {
+    background: hsl(var(--header-bg));
+  }
+
+  .power-card {
+    background: hsl(var(--card));
+    border: 1px solid hsl(var(--border));
+    border-radius: var(--radius);
+  }
+
+  .power-section-title {
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: hsl(var(--muted-foreground));
+  }
+
+  .power-link {
+    color: hsl(var(--accent));
+    text-decoration: none;
+  }
+
+  .power-link:hover {
+    text-decoration: underline;
+  }
+
+  .badge-expert {
+    background: hsl(var(--badge-expert));
+    color: white;
+  }
+
+  .badge-advanced {
+    background: hsl(var(--badge-advanced));
+    color: white;
+  }
+
+  .badge-intermediate {
+    background: hsl(var(--badge-intermediate));
+    color: white;
+  }
+}

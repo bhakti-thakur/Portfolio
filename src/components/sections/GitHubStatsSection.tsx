@@ -1,0 +1,226 @@
+const GitHubStatsSection = () => {
+  const activities = [
+    {
+      type: "push",
+      time: "Today at 4:32 PM",
+      title: "Pushed 4 commits to",
+      repo: "frontend-dash-core",
+      detail: '"refactor: optimized rendering for large SVG datasets"',
+      color: "bg-primary",
+    },
+    {
+      type: "merge",
+      time: "Yesterday at 11:15 AM",
+      title: "Merged PR #24 in",
+      repo: "oss-utility-belt",
+      detail: "Feature: Added new dark mode toggle component.",
+      color: "bg-success",
+    },
+    {
+      type: "star",
+      time: "2 days ago",
+      title: "Starred",
+      repo: "microsoft/fluentui",
+      color: "bg-warning",
+    },
+  ];
+
+  const languages = [
+    { name: "TypeScript", percentage: 62, color: "bg-primary" },
+    { name: "React/JSX", percentage: 28, color: "bg-accent" },
+    { name: "Others", percentage: 10, color: "bg-muted-foreground" },
+  ];
+
+  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+  return (
+    <div id="github-stats" className="scroll-mt-4">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+        {/* Left Column */}
+        <div className="space-y-4">
+          {/* Total Contributions */}
+          <div className="power-card p-4">
+            <h3 className="power-section-title mb-4">TOTAL CONTRIBUTIONS</h3>
+            
+            <div className="text-5xl font-light text-primary mb-2">2,842</div>
+            <div className="flex items-center gap-1 text-sm text-success">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                <path d="M7 2l4 5H8v5H6V7H3l4-5z"/>
+              </svg>
+              +12% from last year
+            </div>
+
+            <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-border">
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">PRs OPENED</div>
+                <div className="text-2xl font-semibold mt-1">145</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">ISSUES FOUND</div>
+                <div className="text-2xl font-semibold mt-1">32</div>
+              </div>
+            </div>
+          </div>
+
+          {/* Top Languages */}
+          <div className="power-card p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="power-section-title">TOP LANGUAGES</h3>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-muted-foreground">
+                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5a5.5 5.5 0 110-11 5.5 5.5 0 010 11zM8 5a.75.75 0 01.75.75v2.5a.75.75 0 01-1.5 0v-2.5A.75.75 0 018 5zm0 7a1 1 0 100-2 1 1 0 000 2z"/>
+              </svg>
+            </div>
+
+            {/* Donut Chart */}
+            <div className="flex justify-center mb-4">
+              <div className="relative w-40 h-40">
+                <svg viewBox="0 0 100 100" className="w-full h-full -rotate-90">
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="none"
+                    stroke="hsl(var(--muted-foreground))"
+                    strokeWidth="12"
+                    strokeDasharray="22 198"
+                    strokeDashoffset="0"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="none"
+                    stroke="hsl(var(--accent))"
+                    strokeWidth="12"
+                    strokeDasharray="62 158"
+                    strokeDashoffset="-22"
+                  />
+                  <circle
+                    cx="50"
+                    cy="50"
+                    r="35"
+                    fill="none"
+                    stroke="hsl(var(--primary))"
+                    strokeWidth="12"
+                    strokeDasharray="136 84"
+                    strokeDashoffset="-84"
+                  />
+                </svg>
+                <div className="absolute inset-0 flex flex-col items-center justify-center">
+                  <span className="text-xs text-muted-foreground">PRIMARY</span>
+                  <span className="text-lg font-semibold">TypeScript</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              {languages.map((lang, index) => (
+                <div key={index} className="flex items-center justify-between text-sm">
+                  <div className="flex items-center gap-2">
+                    <div className={`w-3 h-3 rounded ${lang.color}`}></div>
+                    <span>{lang.name}</span>
+                  </div>
+                  <span className="font-medium">{lang.percentage}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-4">
+          {/* Commits Chart */}
+          <div className="power-card p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="power-section-title">COMMITS PER MONTH (2023)</h3>
+              <div className="flex items-center gap-2">
+                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M1.75 3a.75.75 0 000 1.5h10.5a.75.75 0 000-1.5H1.75zm2 4a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"/>
+                  </svg>
+                </button>
+                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M7 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            {/* Simple bar chart representation */}
+            <div className="h-32 flex items-end gap-1">
+              {[40, 55, 45, 70, 85, 65, 75, 90, 80, 95, 60, 50].map((height, index) => (
+                <div key={index} className="flex-1 flex flex-col items-center gap-1">
+                  <div 
+                    className="w-full bg-muted rounded-t hover:bg-accent transition-colors"
+                    style={{ height: `${height}%` }}
+                  ></div>
+                </div>
+              ))}
+            </div>
+            <div className="flex justify-between mt-2 text-xs text-muted-foreground">
+              {months.map((month) => (
+                <span key={month}>{month}</span>
+              ))}
+            </div>
+          </div>
+
+          {/* Contribution Timeline */}
+          <div className="power-card p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="power-section-title">CONTRIBUTION TIMELINE</h3>
+              <div className="flex items-center gap-2">
+                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M7 1a.5.5 0 01.5.5v5h5a.5.5 0 010 1h-5v5a.5.5 0 01-1 0v-5h-5a.5.5 0 010-1h5v-5A.5.5 0 017 1z"/>
+                  </svg>
+                </button>
+                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M1.75 3a.75.75 0 000 1.5h10.5a.75.75 0 000-1.5H1.75zm2 4a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {activities.map((activity, index) => (
+                <div key={index} className="flex gap-3">
+                  <div className={`w-6 h-6 rounded-full ${activity.color} flex items-center justify-center flex-shrink-0`}>
+                    <svg width="12" height="12" viewBox="0 0 12 12" fill="white">
+                      {activity.type === "push" && <path d="M6 1L2 5h3v6h2V5h3L6 1z"/>}
+                      {activity.type === "merge" && <path d="M3 2v4a3 3 0 003 3h.5V7H6a1 1 0 01-1-1V2H3zm6 0v4a1 1 0 01-1 1h-.5v2H8a3 3 0 003-3V2H9z"/>}
+                      {activity.type === "star" && <path d="M6 1l1.5 3 3.5.5-2.5 2.5.5 3.5L6 8.5 3 10.5l.5-3.5L1 4.5l3.5-.5L6 1z"/>}
+                    </svg>
+                  </div>
+                  <div className="flex-1">
+                    <div className="text-xs text-muted-foreground">{activity.time}</div>
+                    <div className="text-sm">
+                      {activity.title} <a href="#" className="power-link">{activity.repo}</a>
+                    </div>
+                    {activity.detail && (
+                      <div className="mt-1 p-2 bg-muted/30 rounded text-xs text-muted-foreground">
+                        {activity.detail}
+                      </div>
+                    )}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 text-center">
+              <a href="#" className="power-link text-sm flex items-center justify-center gap-1">
+                View all activity
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                  <path d="M4.5 2.5l3.5 3.5-3.5 3.5"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default GitHubStatsSection;
