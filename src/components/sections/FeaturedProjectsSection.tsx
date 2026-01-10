@@ -25,7 +25,7 @@ const FeaturedProjectsSection = () => {
   ];
 
   const collaborators = [
-    { name: "John Doe (Lead)", role: "Fullstack Engineer", initials: "JD", color: "bg-accent" },
+    { name: "Bhakti Thakur (Lead)", role: "Fullstack Engineer", initials: "BT", color: "bg-accent" },
     { name: "Sarah Adams", role: "UI/UX Designer", initials: "SA", color: "bg-success" },
     { name: "Mike King", role: "Backend Architect", initials: "MK", color: "bg-destructive" },
   ];

@@ -1,28 +1,7 @@
+import { connections } from "@/data/connections";
+import { timeline } from "@/data/timeline";
+
 const ConnectSection = () => {
-  const connections = [
-    { name: "Email Me", subtitle: "Send a direct message", link: "john.doe@email.com", icon: "email" },
-    { name: "LinkedIn Profile", subtitle: "Professional network", link: "linkedin.com/in/johndoe", icon: "linkedin" },
-    { name: "Download Resume", subtitle: "PDF Version 2024", link: "JohnDoe_Resume_2024.pdf", icon: "download" },
-    { name: "Twitter / X", subtitle: "Tech insights & updates", link: "@johndoe_dev", icon: "twitter" },
-  ];
-
-  const timeline = [
-    {
-      date: "Dec 12, 2023 2:45 PM",
-      title: "Email sent to Potential Client",
-      description: "Follow-up regarding full-stack developer position for the upcoming SaaS project.",
-      icon: "email",
-      active: true,
-    },
-    {
-      date: "Nov 28, 2023 10:15 AM",
-      title: "LinkedIn Profile Updated",
-      description: 'Added "Senior Software Engineer" certification to the professional summary.',
-      icon: "share",
-      active: false,
-    },
-  ];
-
   return (
     <div id="connect" className="scroll-mt-4">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
@@ -34,19 +13,16 @@ const ConnectSection = () => {
             
             <div className="space-y-4">
               <div>
-                <label className="text-xs text-muted-foreground block mb-1">EMAIL ADDRESS</label>
+                <label className="text-xs text-muted-foreground block mb-1">PREFERRED CONTACT</label>
                 <div className="p-2 bg-muted/30 border border-border rounded text-sm flex items-center justify-between">
-                  <span>john.doe@email.com</span>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-muted-foreground">
-                    <path d="M1.5 3.5h13v9h-13v-9zm.5 1v7h12V4.5H2zm6 3l5-3v.5L8 8 3 5v-.5l5 3z"/>
-                  </svg>
+                  <span>LinkedIn</span>
                 </div>
               </div>
               
               <div>
-                <label className="text-xs text-muted-foreground block mb-1">PHONE NUMBER</label>
+                <label className="text-xs text-muted-foreground block mb-1">RESPONSE TIME</label>
                 <div className="p-2 bg-muted/30 border border-border rounded text-sm flex items-center justify-between">
-                  <span>+1 (555) 555-0158</span>
+                  <span> 24 - 48 hours</span>
                   <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-muted-foreground">
                     <path d="M3.5 1A1.5 1.5 0 002 2.5v11A1.5 1.5 0 003.5 15h9a1.5 1.5 0 001.5-1.5v-11A1.5 1.5 0 0012.5 1h-9zM8 14a1 1 0 110-2 1 1 0 010 2z"/>
                   </svg>

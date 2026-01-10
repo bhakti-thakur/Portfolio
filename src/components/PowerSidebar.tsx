@@ -92,7 +92,7 @@ const PowerSidebar = ({ activeSection, onNavigate }: PowerSidebarProps) => {
           <button className="w-full flex items-center justify-between px-4 py-2 text-sm text-sidebar-foreground hover:bg-muted">
             <div className="flex items-center gap-2">
               <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="opacity-70">
-                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zm-.25 2v3.25H11v1.5H7.25a.75.75 0 01-.75-.75V4.5h1.25z"/>
+                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zM7.25 4.5v4.25H11v1.5H7.25a.75.75 0 01-.75-.75V4.5h1.5z"/>
               </svg>
               <span>Recent</span>
             </div>
@@ -106,8 +106,18 @@ const PowerSidebar = ({ activeSection, onNavigate }: PowerSidebarProps) => {
         <div className="mt-1">
           <button className="w-full flex items-center justify-between px-4 py-2 text-sm text-sidebar-foreground hover:bg-muted">
             <div className="flex items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="opacity-70">
-                <path d="M10.5 1.5L9 3l.44.44L6 6.88l-1.94-1.94-.56.56 1.94 1.94-3.94 3.94v1.12h1.12l3.94-3.94 1.94 1.94.56-.56-1.94-1.94 3.44-3.44.44.44 1.5-1.5-2.5-2.5z"/>
+              <svg fill="currentColor" height="12" width="12" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512.492 512.492">
+                <g>
+                  <g>
+                    <path d="M394.832,364.989l111.403-111.424c5.099-5.056,7.253-12.352,5.824-19.392c-1.451-7.019-6.336-12.864-13.013-15.509
+                      c-75.584-30.144-132.821-23.616-157.077-18.389L207.376,85.757c2.667-45.312-21.696-76.181-22.827-77.589
+                      c-3.776-4.715-9.408-7.595-15.467-7.936c-5.995-0.213-11.968,1.963-16.235,6.229L6.246,153.064
+                      c-4.309,4.288-6.571,10.24-6.208,16.32c0.341,6.059,3.264,11.712,8.043,15.467c26.197,20.821,58.944,23.019,76.331,22.571
+                      l115.541,135.808c-4.203,24.277-9.621,83.819,18.965,155.605c2.645,6.677,8.469,11.541,15.488,13.013
+                      c1.451,0.277,2.88,0.427,4.309,0.427c5.611,0,11.051-2.197,15.083-6.251l110.869-110.869l110.848,110.869
+                      c4.16,4.16,9.621,6.251,15.083,6.251c5.461,0,10.923-2.091,15.083-6.251c8.341-8.341,8.341-21.824,0-30.165L394.832,364.989z"/>
+                  </g>
+                </g>
               </svg>
               <span>Pinned</span>
             </div>

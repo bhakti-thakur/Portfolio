@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import PowerHeader from "@/components/PowerHeader";
 import PowerSidebar from "@/components/PowerSidebar";
 import PowerToolbar from "@/components/PowerToolbar";
@@ -13,59 +13,41 @@ const Index = () => {
   const [activeSection, setActiveSection] = useState("basic-info");
 
   const handleNavigate = (section: string) => {
-    setActiveSection(section);
-    
-    if (section === "home") {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-    
-    const element = document.getElementById(section);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth", block: "start" });
+    setActiveSection(section === "home" ? "basic-info" : section);
+  };
+
+  const renderSection = () => {
+    switch (activeSection) {
+      case "basic-info":
+        return <BasicInfoSection />;
+      case "tech-stack":
+        return <TechStackSection />;
+      case "featured-projects":
+        return <FeaturedProjectsSection />;
+      case "github-stats":
+        return <GitHubStatsSection />;
+      case "connect":
+        return <ConnectSection />;
+      default:
+        return <BasicInfoSection />;
     }
   };
 
-  // Update active section based on scroll position
-  useEffect(() => {
-    const handleScroll = () => {
-      const sections = ["basic-info", "tech-stack", "featured-projects", "github-stats", "connect"];
-      
-      for (const section of sections) {
-        const element = document.getElementById(section);
-        if (element) {
-          const rect = element.getBoundingClientRect();
-          if (rect.top <= 200 && rect.bottom >= 200) {
-            setActiveSection(section);
-            break;
-          }
-        }
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
-    <div className="min-h-screen flex flex-col bg-background">
+    <div className="h-screen flex flex-col bg-background overflow-hidden">
       <PowerHeader />
       
-      <div className="flex flex-1">
+      <div className="flex flex-1 overflow-hidden">
         <PowerSidebar activeSection={activeSection} onNavigate={handleNavigate} />
         
         <div className="flex-1 flex flex-col overflow-hidden">
           <PowerToolbar 
-            title="John Doe" 
-            subtitle="Software Engineer" 
+            title="Bhakti Thakur" 
+            subtitle="Power Platform Developer" 
           />
           
-          <main className="flex-1 overflow-y-auto p-4 space-y-6">
-            <BasicInfoSection />
-            <TechStackSection />
-            <FeaturedProjectsSection />
-            <GitHubStatsSection />
-            <ConnectSection />
+          <main className="flex-1 overflow-y-auto p-4">
+            {renderSection()}
           </main>
         </div>
       </div>

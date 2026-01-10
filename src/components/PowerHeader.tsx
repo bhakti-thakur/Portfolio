@@ -62,7 +62,7 @@ const PowerHeader = () => {
 
         {/* User avatar */}
         <div className="w-8 h-8 rounded-full bg-accent flex items-center justify-center text-sm font-semibold">
-          JD
+          BT
         </div>
       </div>
     </header>

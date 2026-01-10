@@ -1,14 +1,38 @@
+import { skills } from "@/data/skills";
+import PowerAppsIcon from "@/assets/powerapps.svg";
+import PowerAutomateIcon from "@/assets/powerautomate.svg";
+import PowerBiIcon from "@/assets/powerbi.svg";
+import ReactIcon from "@/assets/react.svg";
+import NextJsIcon from "@/assets/nextjs.svg";
+import ReactNativeIcon from "@/assets/reactnative.svg";
+import TailwindIcon from "@/assets/tailwind.svg";
+import NodeJsIcon from "@/assets/nodejs.svg";
+import PythonIcon from "@/assets/python.svg";
+import JavaIcon from "@/assets/java.svg";
+import MongoDBIcon from "@/assets/mongodb.svg";
+import FirebaseIcon from "@/assets/firebase.svg";
+import SalesforceIcon from "@/assets/salesforce.svg";
+import GitIcon from "@/assets/git.svg";
+import GoogleCloudIcon from "@/assets/googlecloud.svg";
+
 const TechStackSection = () => {
-  const skills = [
-    { name: "React", level: "EXPERT", description: "Frameworks: Next.js, Redux, Tailwind CSS. Focus on...", icon: "react" },
-    { name: "Node.js", level: "EXPERT", description: "Express, NestJS, GraphQL APIs and Microservices.", icon: "node" },
-    { name: "TypeScript", level: "ADVANCED", description: "Strong typing, interface design, and modern ES...", icon: "ts" },
-    { name: "AWS", level: "ADVANCED", description: "Lambda, S3, EC2, CloudFront and CDK for Infrastructure.", icon: "aws" },
-    { name: "PostgreSQL", level: "ADVANCED", description: "Relational design, indexing, and complex query...", icon: "postgres" },
-    { name: "Python", level: "INTERMEDIATE", description: "Data processing scripts and automation tasks.", icon: "python" },
-    { name: "Docker", level: "ADVANCED", description: "Containerization for development and production...", icon: "docker" },
-    { name: "Tailwind CSS", level: "EXPERT", description: "Utility-first styling, design systems, and responsive...", icon: "tailwind" },
-  ];
+  const iconMap: Record<string, string> = {
+    "powerapps": PowerAppsIcon,
+    "powerautomate": PowerAutomateIcon,
+    "powerbi": PowerBiIcon,
+    "react": ReactIcon,
+    "nextjs": NextJsIcon,
+    "reactnative": ReactNativeIcon,
+    "tailwind": TailwindIcon,
+    "nodejs": NodeJsIcon,
+    "python": PythonIcon,
+    "java": JavaIcon,
+    "mongodb": MongoDBIcon,
+    "firebase": FirebaseIcon,
+    "salesforce": SalesforceIcon,
+    "git": GitIcon,
+    "googlecloud": GoogleCloudIcon,
+  };
 
   const getBadgeClass = (level: string) => {
     switch (level) {
@@ -30,19 +54,19 @@ const TechStackSection = () => {
             <div className="space-y-3">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Core Specialty</span>
-                <span className="font-medium">Full Stack Development</span>
+                <span className="font-medium">Power Platform | Dynamics 365</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Experience</span>
-                <span className="font-medium">6+ Years</span>
+                <span className="font-medium">0-1 Years</span>
               </div>
               <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">Main Language</span>
-                <span className="font-medium">TypeScript</span>
+                <span className="text-muted-foreground">Main Technology</span>
+                <span className="font-medium">Low-Code / No-code</span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Environment</span>
-                <span className="font-medium">VS Code / macOS</span>
+                <span className="font-medium">VS Code / Windows</span>
               </div>
             </div>
           </div>
@@ -57,16 +81,16 @@ const TechStackSection = () => {
             
             <div className="space-y-2 text-sm">
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-success"></div>
-                <span>Expert (Daily Use)</span>
+                <div className="w-3 h-3 rounded-full badge-expert"></div>
+                <span>Advanced (Major Experience)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-accent"></div>
-                <span>Advanced (Regular Use)</span>
+                <div className="w-3 h-3 rounded-full badge-advanced"></div>
+                <span>Intermediate (Major projects)</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-3 h-3 rounded-full bg-warning"></div>
-                <span>Intermediate (Prior Projects)</span>
+                <div className="w-3 h-3 rounded-full badge-intermediate"></div>
+                <span>Beginner (Minor Projects)</span>
               </div>
             </div>
           </div>
@@ -96,9 +120,12 @@ const TechStackSection = () => {
                 <div key={index} className="border border-border rounded p-3 hover:border-primary/30 transition-colors">
                   <div className="flex items-start justify-between mb-2">
                     <div className="w-10 h-10 bg-muted rounded flex items-center justify-center">
-                      <svg width="20" height="20" viewBox="0 0 20 20" fill="currentColor" className="text-accent">
-                        <path d="M10 2L3 6v8l7 4 7-4V6l-7-4z"/>
-                      </svg>
+                      <img 
+                        src={iconMap[skill.icon]} 
+                        alt={skill.name}
+                        width="34"
+                        height="34"
+                      />
                     </div>
                     <span className={`text-xs px-2 py-0.5 rounded font-medium ${getBadgeClass(skill.level)}`}>
                       {skill.level}
@@ -120,7 +147,7 @@ const TechStackSection = () => {
             </div>
 
             <div className="mt-4 text-xs text-muted-foreground">
-              1 - 8 of 8
+              1 - {skills.length} of {skills.length}
               <span className="float-right">Page 1</span>
             </div>
           </div>
@@ -131,3 +158,4 @@ const TechStackSection = () => {
 };
 
 export default TechStackSection;
+
