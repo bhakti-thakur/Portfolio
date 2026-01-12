@@ -4,22 +4,22 @@ export interface TimelineItem {
   date: string;
   title: string;
   description: string;
-  icon: TimelineIcon;
+  icon: TimelineIcon;  // Keep as key like "email", "share"
   active: boolean;
 }
 
 export const timeline: TimelineItem[] = [
   {
-    date: "Dec 12, 2023 2:45 PM",
-    title: "Email sent to Potential Client",
-    description: "Follow-up regarding full-stack developer position for the upcoming SaaS project.",
+    date: "Feb '25 - Sept '25",
+    title: "MS Dynamics CRM & Power Platform Intern",
+    description: "Hands-on experience customizing Dynamics 365 CRM using JavaScript, building model-driven Power Apps with Dataverse entities, views, business rules, and security roles. Automated workflows with Power Automate and BPFs, and contributed to reusable JS components and C# plugins for scalable CRM solutions.",
     icon: "email",
     active: true,
   },
   {
-    date: "Nov 28, 2023 10:15 AM",
-    title: "LinkedIn Profile Updated",
-    description: 'Added "Senior Power Platform Developer" certification to the professional summary.',
+    date: "Feb '25 - Apr '25",
+    title: "Software Development Intern",
+    description: 'Experience developing interactive web applications using React.js and Firebase, integrating REST APIs for real-time data exchange, and building responsive UI components with Tailwind CSS. Collaborated in Agile sprints to deliver production-ready frontend features for internal and customer-facing applications.',
     icon: "share",
     active: false,
   },

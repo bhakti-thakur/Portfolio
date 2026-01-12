@@ -1,35 +1,6 @@
+import { projects, collaborators } from "@/data/projects";
+
 const FeaturedProjectsSection = () => {
-  const projects = [
-    {
-      name: "Enterprise CRM Platform",
-      modified: "Oct 24, 2:15 PM",
-      description: "A comprehensive customer relationship management tool built for high-performance sales teams. Features real-time data sync and advanced reporting.",
-      tags: ["REACT", "NODE.JS", "AZURE"],
-      color: "bg-warning",
-    },
-    {
-      name: "AI Analytics Engine",
-      modified: "Oct 20, 11:40 AM",
-      description: "Developed a machine learning engine that predicts user churn with 94% accuracy. Integrated with existing data pipelines for real-time insights.",
-      tags: ["PYTHON", "TENSORFLOW"],
-      color: "bg-destructive",
-      isPublic: true,
-    },
-    {
-      name: "Fitness Tracking App",
-      modified: "Oct 15, 09:12 AM",
-      description: "Cross-platform mobile application for tracking workout progress and nutritional intake.",
-      tags: ["FLUTTER"],
-      color: "bg-primary",
-    },
-  ];
-
-  const collaborators = [
-    { name: "Bhakti Thakur (Lead)", role: "Fullstack Engineer", initials: "BT", color: "bg-accent" },
-    { name: "Sarah Adams", role: "UI/UX Designer", initials: "SA", color: "bg-success" },
-    { name: "Mike King", role: "Backend Architect", initials: "MK", color: "bg-destructive" },
-  ];
-
   return (
     <div id="featured-projects" className="scroll-mt-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
@@ -64,8 +35,8 @@ const FeaturedProjectsSection = () => {
                         <h4 className="font-semibold text-sm">{project.name}</h4>
                         <div className="flex items-center gap-1">
                           <button className="p-1 hover:bg-muted rounded text-muted-foreground">
-                            <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                              <path d="M11.5 2.5l-9 9v2h2l9-9-2-2zM10.5 1.5l2 2 .5-.5a1.414 1.414 0 00-2-2l-.5.5z"/>
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                              <path d="M18 10L21 7L17 3L14 6M18 10L8 20H4V16L14 6M18 10L14 6" stroke="#FFF" stroke-width="0.5" stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                           </button>
                           <button className="p-1 hover:bg-muted rounded text-muted-foreground">
@@ -78,7 +49,11 @@ const FeaturedProjectsSection = () => {
                       <p className="text-xs text-muted-foreground">Modified on: {project.modified}</p>
                       
                       <div className="mt-3 p-3 bg-muted/30 rounded">
-                        <p className="text-sm text-foreground">{project.description}</p>
+                        <ul className="text-sm text-foreground space-y-1">
+                          {project.description.map((item, i) => (
+                            <li key={i}>• {item}</li>
+                          ))}
+                        </ul>
                       </div>
                       
                       <div className="mt-3 flex items-center justify-between">
@@ -89,14 +64,6 @@ const FeaturedProjectsSection = () => {
                             </span>
                           ))}
                         </div>
-                        {project.isPublic && (
-                          <div className="flex items-center gap-1 text-xs text-muted-foreground">
-                            <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                              <path d="M3 4V3a3 3 0 016 0v1h.5A1.5 1.5 0 0111 5.5v5A1.5 1.5 0 019.5 12h-7A1.5 1.5 0 011 10.5v-5A1.5 1.5 0 012.5 4H3z"/>
-                            </svg>
-                            Public Repo
-                          </div>
-                        )}
                       </div>
                       
                       <div className="mt-3 flex items-center justify-between">
@@ -107,7 +74,7 @@ const FeaturedProjectsSection = () => {
                             +2
                           </div>
                         </div>
-                        <a href="#" className="power-link text-sm flex items-center gap-1">
+                        <a href={project.link} target="_blank" rel="noopener noreferrer" className="power-link text-sm flex items-center gap-1">
                           View Project
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
                             <path d="M2.5 2h4v1h-4v6h6v-4h1v4.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5zm5 0h2.5v2.5h-1v-1.29l-3.35 3.35-.71-.71L8.29 2.5H7v-1z"/>
@@ -121,7 +88,7 @@ const FeaturedProjectsSection = () => {
             </div>
 
             <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
-              <span>1 - 3 of 12</span>
+              <span>1 - {projects.length} of {projects.length}</span>
               <div className="flex items-center gap-1">
                 <button className="p-1 hover:bg-muted rounded">«</button>
                 <button className="p-1 hover:bg-muted rounded">‹</button>
@@ -199,7 +166,15 @@ const FeaturedProjectsSection = () => {
             <p className="text-sm opacity-80 mb-3">
               Let&apos;s discuss how I can help your team build scalable web applications.
             </p>
-            <button className="w-full py-2 bg-card text-primary rounded font-medium text-sm hover:bg-card/90 transition-colors">
+            <button 
+              onClick={() => {
+                const connectButton = Array.from(document.querySelectorAll('button')).find(btn => 
+                  btn.textContent?.includes('Connect')
+                );
+                connectButton?.click();
+              }}
+              className="w-full py-2 bg-card text-primary rounded font-medium text-sm hover:bg-card/90 transition-colors"
+            >
               CONTACT ME
             </button>
           </div>
