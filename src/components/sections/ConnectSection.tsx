@@ -1,16 +1,45 @@
 import { connections } from "@/data/connections";
 import { timeline } from "@/data/timeline";
+import emailjs from "@emailjs/browser"
+import { useRef } from "react"
 import powerapps from "@/assets/powerapps.svg";
 import react from "@/assets/react.svg";
 import LinkedInIcon from "@/assets/linkedin.svg";
 import GitHubIcon from "@/assets/github.svg";
 
 const ConnectSection = () => {
-  const iconMap: Record<string, string> = {
-    email: powerapps,
-    share: react,
+  const formRef = useRef<HTMLFormElement>(null);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    if (!formRef.current) return
+
+    emailjs
+      .sendForm(
+        import.meta.env.VITE_EMAILJS_SERVICE_ID,
+        import.meta.env.VITE_EMAILJS_TEMPLATE_ID,
+        formRef.current,
+        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+      )
+      .then(
+        () => {
+          alert("Message sent successfully!")
+          formRef.current?.reset()
+        },
+        (error) => {
+          console.error(error)
+          alert("Failed to send message. Please try again.")
+        }
+      )
+  }
+
+  // Local icon map for connections - mirrors TechStackSection pattern
+  const IconMap: Record<string, string> = {
     linkedin: LinkedInIcon,
     github: GitHubIcon,
+    powerapps: powerapps,
+    react: react,
   };
 
   return (
@@ -60,50 +89,50 @@ const ConnectSection = () => {
                 </svg>
               </button>
             </div>            
-            <form className="space-y-4">
-              <div>
-                <label className="text-xs text-muted-foreground block mb-1" htmlFor="contact-name">Name *</label>
-                <input
-                  id="contact-name"
-                  name="name"
-                  required
-                  className="w-full p-2 bg-muted/30 border border-border rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Your name"
-                  aria-required="true"
-                />
-              </div>
+            <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+                <div>
+                  <label className="text-xs text-muted-foreground block mb-1" htmlFor="contact-name">Name *</label>
+                  <input
+                    id="contact-name"
+                    name="name"
+                    required
+                    className="w-full p-2 bg-muted/30 border border-border rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Your name"
+                    aria-required="true"
+                  />
+                </div>
 
-              <div>
-                <label className="text-xs text-muted-foreground block mb-1" htmlFor="contact-email">Email *</label>
-                <input
-                  id="contact-email"
-                  name="email"
-                  type="email"
-                  required
-                  pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
-                  className="w-full p-2 bg-muted/30 border border-border rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="you@example.com"
-                  aria-required="true"
-                />
-              </div>
+                <div>
+                  <label className="text-xs text-muted-foreground block mb-1" htmlFor="contact-email">Email *</label>
+                  <input
+                    id="contact-email"
+                    name="email"
+                    type="email"
+                    required
+                    pattern="^[^\s@]+@[^\s@]+\.[^\s@]+$"
+                    className="w-full p-2 bg-muted/30 border border-border rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="you@example.com"
+                    aria-required="true"
+                  />
+                </div>
 
-              <div>
-                <label className="text-xs text-muted-foreground block mb-1" htmlFor="contact-message">Message (optional)</label>
-                <textarea
-                  id="contact-message"
-                  name="message"
-                  rows={4}
-                  className="w-full p-2 bg-muted/30 border border-border rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                  placeholder="Tell me about your requirements"
-                />
-              </div>
+                <div>
+                  <label className="text-xs text-muted-foreground block mb-1" htmlFor="contact-message">Message (optional)</label>
+                  <textarea
+                    id="contact-message"
+                    name="message"
+                    rows={4}
+                    className="w-full p-2 bg-muted/30 border border-border rounded text-sm focus:outline-none focus:ring-2 focus:ring-primary"
+                    placeholder="Tell me about your requirements"
+                  />
+                </div>
 
-              <button
-                type="submit"
-                className="w-full py-2 bg-primary text-primary-foreground rounded font-medium text-sm hover:bg-primary/90 transition-colors"
-              >
-                Send Message
-              </button>
+                <button
+                  type="submit"
+                  className="w-full py-2 bg-primary text-primary-foreground rounded font-medium text-sm hover:bg-primary/90 transition-colors"
+                >
+                  Send Message
+                </button>
             </form>
           </div>
         </div>
@@ -124,29 +153,25 @@ const ConnectSection = () => {
             
             <div className="grid grid-cols-2 gap-3">
               {connections.map((conn, index) => (
-                <div key={index} className="border border-border rounded p-3 hover:border-primary/30 transition-colors">
-                  <div className="flex items-start justify-between mb-2">
-                    <div className={`w-10 h-10 rounded flex items-center justify-center ${
-                      conn.icon === "email" ? "bg-primary/10 text-primary" :
-                      conn.icon === "linkedin" ? "bg-accent text-accent-foreground" :
-                      conn.icon === "github" ? "bg-destructive/10 text-destructive" :
-                      "bg-info/10 text-info"
-                    }`}>
-                      <img 
-                        src={iconMap[conn.icon]} 
-                        alt={conn.icon}
-                        width="24"
-                        height="24"
-                      />
+                <a href={conn.link} target="_blank" >
+                  <div key={index} className="border border-border rounded p-3 hover:border-primary/30 transition-colors">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center">
+                        <img 
+                          src={IconMap[conn.icon]} 
+                          alt={conn.icon}
+                          width="40"
+                          height="40"
+                        />
+                      </div>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" className="text-muted-foreground">
+                        <path d="M3 3h5v1H4v6h6V5h1v5.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5zm6 0h2.5v2.5h-1V4.2L7.2 7.5l-.7-.7 3.3-3.3H8.5v-1z"/>
+                      </svg>
                     </div>
-                    <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" className="text-muted-foreground">
-                      <path d="M3 3h5v1H4v6h6V5h1v5.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5zm6 0h2.5v2.5h-1V4.2L7.2 7.5l-.7-.7 3.3-3.3H8.5v-1z"/>
-                    </svg>
+                    <h4 className="font-medium text-sm">{conn.name}</h4>
+                    <p className="text-xs text-muted-foreground">{conn.subtitle}</p>
                   </div>
-                  <h4 className="font-medium text-sm">{conn.name}</h4>
-                  <p className="text-xs text-muted-foreground">{conn.subtitle}</p>
-                  <a href="#" className="power-link text-xs mt-2 block">{conn.link}</a>
-                </div>
+                </a>
               ))}
             </div>
           </div>
@@ -178,7 +203,7 @@ const ConnectSection = () => {
                     <div className="mt-1 p-3 bg-muted/30 rounded">
                       <div className="flex items-center gap-2 text-sm font-medium">
                         <img 
-                          src={iconMap[item.icon]} 
+                          src={IconMap[item.icon]} 
                           alt={item.icon}
                           width="14"
                           height="14"
