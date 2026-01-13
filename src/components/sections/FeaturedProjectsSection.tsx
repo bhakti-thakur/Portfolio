@@ -68,11 +68,11 @@ const FeaturedProjectsSection = () => {
                       
                       <div className="mt-3 flex items-center justify-between">
                         <div className="flex -space-x-2">
-                          <div className="w-6 h-6 rounded-full bg-accent border-2 border-card"></div>
-                          <div className="w-6 h-6 rounded-full bg-success border-2 border-card"></div>
+                          <div className="w-6 h-6 rounded-full bg-accent border-2 border-card text-xs font-semibold text-white flex items-center justify-center">BT</div>
+                          {/* <div className="w-6 h-6 rounded-full bg-success border-2 border-card"></div>
                           <div className="w-6 h-6 rounded-full bg-muted border-2 border-card flex items-center justify-center text-xs text-muted-foreground">
                             +2
-                          </div>
+                          </div> */}
                         </div>
                         <a href={project.link} target="_blank" rel="noopener noreferrer" className="power-link text-sm flex items-center gap-1">
                           View Project
@@ -164,7 +164,7 @@ const FeaturedProjectsSection = () => {
           <div className="bg-primary rounded p-4 text-primary-foreground">
             <h4 className="font-semibold mb-1">Need a custom solution?</h4>
             <p className="text-sm opacity-80 mb-3">
-              Let&apos;s discuss how I can help your team build scalable web applications.
+              Let&apos;s discuss how I can help your team build scalable solutions and drive business growth.
             </p>
             <button 
               onClick={() => {

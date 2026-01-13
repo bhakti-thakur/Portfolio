@@ -9,10 +9,10 @@ const PowerSidebar = ({ activeSection, onNavigate }: PowerSidebarProps) => {
   ];
 
   const portfolioItems = [
-    { id: "basic-info", label: "Basic Info", icon: "person" },
+    { id: "basic-info", label: "Introduction", icon: "person" },
     { id: "tech-stack", label: "Tech Stack", icon: "code" },
-    { id: "featured-projects", label: "Featured Projects", icon: "star" },
     { id: "github-stats", label: "GitHub Stats", icon: "chart" },
+    { id: "featured-projects", label: "Featured Projects", icon: "star" },
     { id: "connect", label: "Connect", icon: "connect" },
   ];
 

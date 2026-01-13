@@ -36,9 +36,9 @@ const TechStackSection = () => {
 
   const getBadgeClass = (level: string) => {
     switch (level) {
-      case "EXPERT": return "badge-expert";
-      case "ADVANCED": return "badge-advanced";
-      case "INTERMEDIATE": return "badge-intermediate";
+      case "ADVANCED": return "badge-expert";
+      case "INTERMEDIATE": return "badge-advanced";
+      case "FOUNDATIONAL": return "badge-intermediate";
       default: return "bg-muted";
     }
   };
@@ -90,7 +90,7 @@ const TechStackSection = () => {
               </div>
               <div className="flex items-center gap-2">
                 <div className="w-3 h-3 rounded-full badge-intermediate"></div>
-                <span>Beginner (Minor Projects)</span>
+                <span>Foundational (Minor Projects)</span>
               </div>
             </div>
           </div>

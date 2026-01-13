@@ -22,10 +22,10 @@ const Index = () => {
         return <BasicInfoSection />;
       case "tech-stack":
         return <TechStackSection />;
-      case "featured-projects":
-        return <FeaturedProjectsSection />;
       case "github-stats":
         return <GitHubStatsSection />;
+      case "featured-projects":
+        return <FeaturedProjectsSection />;
       case "connect":
         return <ConnectSection />;
       default:

@@ -1,4 +1,4 @@
-export type SkillLevel =  "INTERMEDIATE" | "ADVANCED" | "EXPERT"
+export type SkillLevel = "FOUNDATIONAL" | "INTERMEDIATE" | "ADVANCED" 
 
 export interface Skill {
   name: string
@@ -14,21 +14,21 @@ export const skills: Skill[] =  [
     // Power Platform Tools
     { 
       name: "Power Apps", 
-      level: "EXPERT", 
+      level: "ADVANCED", 
       description: "Canvas & Model-driven apps, PCF components, custom connectors", 
       icon: "powerapps",
       category: "Power Platform"
     },
     { 
       name: "Power Automate", 
-      level: "ADVANCED", 
+      level: "INTERMEDIATE", 
       description: "Cloud flows, desktop flows, RPA automation, connectors", 
       icon: "powerautomate",
       category: "Power Platform"
     },
     { 
       name: "Power BI", 
-      level: "INTERMEDIATE", 
+      level: "FOUNDATIONAL", 
       description: "Data modeling, DAX formulas, interactive dashboards", 
       icon: "powerbi",
       category: "Power Platform"
@@ -37,28 +37,28 @@ export const skills: Skill[] =  [
     // Frontend
     { 
       name: "React.js", 
-      level: "EXPERT", 
+      level: "ADVANCED", 
       description: "Hooks, Context API, Redux, component architecture", 
       icon: "react",
       category: "Frontend"
     },
     { 
       name: "Next.js", 
-      level: "EXPERT", 
+      level: "ADVANCED", 
       description: "App router, SSR, SSG, API routes, server components", 
       icon: "nextjs",
       category: "Frontend"
     },
     {
       name: "React Native", 
-      level: "INTERMEDIATE", 
+      level: "FOUNDATIONAL", 
       description: "Cross-platform mobile apps, native modules, Expo", 
       icon: "reactnative",
       category: "Frontend"
     },
     { 
       name: "Tailwind CSS", 
-      level: "EXPERT", 
+      level: "ADVANCED", 
       description: "Utility-first styling, design systems, responsive layouts", 
       icon: "tailwind",
       category: "Frontend"
@@ -67,21 +67,21 @@ export const skills: Skill[] =  [
     // Backend
     { 
       name: "Node.js", 
-      level: "EXPERT", 
+      level: "ADVANCED", 
       description: "Express, NestJS, REST APIs, microservices architecture", 
       icon: "nodejs",
       category: "Backend"
     },
     { 
       name: "Python", 
-      level: "ADVANCED", 
+      level: "INTERMEDIATE", 
       description: "Django, Flask, data processing, automation scripts", 
       icon: "python",
       category: "Backend"
     },
     { 
       name: "Java", 
-      level: "INTERMEDIATE", 
+      level: "FOUNDATIONAL", 
       description: "Spring Boot, REST APIs, enterprise applications", 
       icon: "java",
       category: "Backend"
@@ -102,7 +102,7 @@ export const skills: Skill[] =  [
     },
     { 
       name: "Salesforce", 
-      level: "ADVANCED", 
+      level: "INTERMEDIATE", 
       description: "Apex, Lightning Web Components, SOQL, integrations", 
       icon: "salesforce",
       category: "Backend"
@@ -118,7 +118,7 @@ export const skills: Skill[] =  [
     },
     { 
       name: "Google Cloud", 
-      level: "INTERMEDIATE", 
+      level: "FOUNDATIONAL", 
       description: "Cloud Functions, Firebase, App Engine, Cloud Storage", 
       icon: "googlecloud",
       category: "DevOps"
