@@ -191,7 +191,7 @@ const processGithubData = (rawData: any): GitHubStats => {
     const commits: CommitActivity[] = [];
     const now = new Date();
 
-    console.log("GitHub API Response:", rawData);
+   // console.log("GitHub API Response:", rawData);
 
     rawData?.viewer?.repositories?.nodes?.forEach((repo: any) => {
       if (!repo.name) {
@@ -202,7 +202,8 @@ const processGithubData = (rawData: any): GitHubStats => {
       if (commits_list.length === 0) {
         console.log(`No commits found for repo: ${repo.nameWithOwner}`);
       }
-      commits_list.slice(0, 5).forEach((commit: any) => {
+      // Limit to at most 1 commit per repo to keep timeline diverse
+      commits_list.slice(0, 1).forEach((commit: any) => {
         const commitDate = new Date(commit.committedDate);
         const daysAgo = Math.floor((now.getTime() - commitDate.getTime()) / (1000 * 60 * 60 * 24));
 
@@ -221,7 +222,7 @@ const processGithubData = (rawData: any): GitHubStats => {
           color: "bg-primary",
           date: commitDate,
         });
-        console.log("Commit found:", repo.nameWithOwner, commit.message, commit.committedDate);
+        // console.log("Commit found:", repo.nameWithOwner, commit.message, commit.committedDate);
       });
     });
 
@@ -251,7 +252,7 @@ const processGithubData = (rawData: any): GitHubStats => {
         color: "bg-success",
         date: prDate,
       });
-      console.log("Merged PR:", pr.repository.nameWithOwner, pr.title, pr.mergedAt);
+    //   console.log("Merged PR:", pr.repository.nameWithOwner, pr.title, pr.mergedAt);
     });
 
     // Process starred repositories
@@ -280,7 +281,7 @@ const processGithubData = (rawData: any): GitHubStats => {
         color: "bg-warning",
         date: starDate,
       });
-      console.log("⭐ STAR Activity:", repo.owner.login, repo.name, repo.starredAt);
+    //   console.log("⭐ STAR Activity:", repo.owner.login, repo.name, repo.starredAt);
     });
 
     // Combine and sort all activities by date (newest first)
