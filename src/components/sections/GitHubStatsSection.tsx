@@ -211,6 +211,9 @@ const GitHubStatsSection = () => {
                   // Own repos (push/merge) just need username prefix
                   repoUrl = `https://github.com/bhakti-thakur/${activity.repo}`;
                 }
+                const repoLabel = activity.type === "star"
+                  ? activity.repo
+                  : (activity.repo.split("/").pop() || activity.repo);
 
                 return (
                   <div key={index} className="flex gap-3">
@@ -224,7 +227,7 @@ const GitHubStatsSection = () => {
                     <div className="flex-1">
                       <div className="text-xs text-muted-foreground">{activity.time}</div>
                       <div className="text-sm">
-                        {activity.title} <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="power-link">{activity.repo}</a>
+                        {activity.title} <a href={repoUrl} target="_blank" rel="noopener noreferrer" className="power-link">{repoLabel}</a>
                       </div>
                       {activity.detail && (
                         <div className="mt-1 p-2 bg-muted/30 rounded text-xs text-muted-foreground">

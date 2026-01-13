@@ -39,6 +39,7 @@ const GITHUB_QUERY = `
       repositories(first: 100, isFork: false, orderBy: {field: UPDATED_AT, direction: DESC}) {
         nodes {
           name
+          nameWithOwner
           url
           defaultBranchRef {
             target {
@@ -67,17 +68,19 @@ const GITHUB_QUERY = `
           title
           mergedAt
           repository {
-            name
+            nameWithOwner
           }
         }
       }
       starredRepositories(first: 10, orderBy: {field: STARRED_AT, direction: DESC}) {
-        nodes {
-          name
-          owner {
-            login
-          }
+        edges {
           starredAt
+          node {
+            name
+            owner {
+              login
+            }
+          }
         }
       }
     }
@@ -130,6 +133,12 @@ const processGithubData = (rawData: any): GitHubStats => {
     loading: false,
     error: null,
   };
+
+//   localStorage.removeItem('github_stats_cache');
+//   console.log('Cache cleared:', localStorage.getItem('github_stats_cache')); // Should show null
+//   location.reload(); // Force refresh
+
+  console.log("🔄 Processing fresh GitHub data from API...");
 
   try {
     // Total contributions
@@ -191,7 +200,7 @@ const processGithubData = (rawData: any): GitHubStats => {
       }
       const commits_list = repo?.defaultBranchRef?.target?.history?.nodes || [];
       if (commits_list.length === 0) {
-        console.log(`No commits found for repo: ${repo.name}`);
+        console.log(`No commits found for repo: ${repo.nameWithOwner}`);
       }
       commits_list.slice(0, 5).forEach((commit: any) => {
         const commitDate = new Date(commit.committedDate);
@@ -207,22 +216,23 @@ const processGithubData = (rawData: any): GitHubStats => {
           type: "push",
           time: timeStr,
           title: "Pushed to",
-          repo: repo.name || "repository",
+          repo: repo.nameWithOwner,
           detail: commit.message.split("\n")[0],
           color: "bg-primary",
           date: commitDate,
         });
+        console.log("Commit found:", repo.nameWithOwner, commit.message, commit.committedDate);
       });
     });
 
     // Process merged PRs
     const mergedPRs: CommitActivity[] = [];
     rawData?.viewer?.pullRequests?.nodes?.forEach((pr: any) => {
-      if (!pr.repository?.name) {
+      if (!pr.repository?.nameWithOwner) {
         console.warn("PR without repo name:", pr);
         return;
       }
-      console.log("PR found:", pr.repository.name, pr.title);
+      console.log("PR found:", pr.repository.nameWithOwner, pr.title);
       const prDate = new Date(pr.mergedAt);
       const daysAgo = Math.floor((now.getTime() - prDate.getTime()) / (1000 * 60 * 60 * 24));
 
@@ -236,22 +246,24 @@ const processGithubData = (rawData: any): GitHubStats => {
         type: "merge",
         time: timeStr,
         title: "Merged PR in",
-        repo: pr.repository.name || "repository",
+        repo: pr.repository.nameWithOwner,
         detail: pr.title,
         color: "bg-success",
         date: prDate,
       });
+      console.log("Merged PR:", pr.repository.nameWithOwner, pr.title, pr.mergedAt);
     });
 
     // Process starred repositories
     const starred: CommitActivity[] = [];
-    rawData?.viewer?.starredRepositories?.nodes?.forEach((repo: any) => {
-      if (!repo.name || !repo.owner?.login) {
+    rawData?.viewer?.starredRepositories?.edges?.forEach((edge: any) => {
+      const repo = edge?.node;
+      if (!repo?.name || !repo?.owner?.login) {
         console.warn("Starred repo without proper data:", repo);
         return;
       }
       console.log("Starred repo:", repo.owner.login, repo.name);
-      const starDate = new Date(repo.starredAt);
+      const starDate = new Date(edge.starredAt);
       const daysAgo = Math.floor((now.getTime() - starDate.getTime()) / (1000 * 60 * 60 * 24));
 
       let timeStr = "Today";
@@ -268,6 +280,7 @@ const processGithubData = (rawData: any): GitHubStats => {
         color: "bg-warning",
         date: starDate,
       });
+      console.log("⭐ STAR Activity:", repo.owner.login, repo.name, repo.starredAt);
     });
 
     // Combine and sort all activities by date (newest first)
