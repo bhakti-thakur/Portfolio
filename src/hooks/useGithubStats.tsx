@@ -16,11 +16,19 @@ interface CommitActivity {
   date?: Date;
 }
 
+interface MonthlyCommitTrend {
+  labels: string[];
+  counts: number[];
+}
+
 interface GitHubStats {
   totalContributions: number;
   languages: LanguageData[];
   monthlyCommits: number[];
+  monthlyCommitTrend: MonthlyCommitTrend;
   activities: CommitActivity[];
+  publicRepositories: number;
+  activeYears: string;
   loading: boolean;
   error: string | null;
 }
@@ -92,6 +100,17 @@ interface CacheData {
   data: GitHubStats;
 }
 
+// Helper: Human-readable relative time (today-safe)
+const formatTimeAgo = (fromDate: Date, now: Date): string => {
+  const daysAgo = Math.floor((now.getTime() - fromDate.getTime()) / (1000 * 60 * 60 * 24));
+
+  if (daysAgo <= 0) return "Today";
+  if (daysAgo === 1) return "Yesterday";
+  if (daysAgo < 7) return `${daysAgo} days ago`;
+  if (daysAgo < 30) return `${Math.floor(daysAgo / 7)} weeks ago`;
+  return `${Math.floor(daysAgo / 30)} months ago`;
+};
+
 const getFromCache = (): GitHubStats | null => {
   try {
     const cached = localStorage.getItem(CACHE_KEY);
@@ -101,7 +120,13 @@ const getFromCache = (): GitHubStats | null => {
     const now = Date.now();
 
     if (now - timestamp < CACHE_TTL) {
-      return data;
+      // Ensure new fields exist for backward compatibility
+      return {
+        ...data,
+        monthlyCommitTrend: data.monthlyCommitTrend || { labels: [], counts: [] },
+        publicRepositories: data.publicRepositories || 0,
+        activeYears: data.activeYears || "0+",
+      };
     }
 
     // Cache expired, clear it
@@ -124,12 +149,68 @@ const saveToCache = (data: GitHubStats): void => {
   }
 };
 
+// Helper: Generate last 12-24 months of labels (e.g. "Jan 24", "Feb 24")
+const generateMonthlyLabels = (monthCount: number = 12): string[] => {
+  const labels: string[] = [];
+  const now = new Date();
+
+  for (let i = monthCount - 1; i >= 0; i--) {
+    const date = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const month = date.toLocaleString("default", { month: "short" });
+    const year = date.getFullYear().toString().slice(-2);
+    labels.push(`${month} ${year}`);
+  }
+
+  return labels;
+};
+
+// Helper: Aggregate commits by month
+const aggregateCommitsByMonth = (
+  allCommitDates: Date[],
+  monthCount: number = 12
+): MonthlyCommitTrend => {
+  const now = new Date();
+  const labels = generateMonthlyLabels(monthCount);
+  const counts = Array(monthCount).fill(0);
+
+  allCommitDates.forEach((date) => {
+    // Find which month bucket this commit belongs to
+    const commitYear = date.getFullYear();
+    const commitMonth = date.getMonth();
+    const currentYear = now.getFullYear();
+    const currentMonth = now.getMonth();
+
+    // Calculate months ago
+    let monthsAgo = (currentYear - commitYear) * 12 + (currentMonth - commitMonth);
+
+    // Only count commits from the last 12-24 months
+    if (monthsAgo >= 0 && monthsAgo < monthCount) {
+      const bucketIndex = monthCount - 1 - monthsAgo;
+      counts[bucketIndex]++;
+    }
+  });
+
+  return { labels, counts };
+};
+
+// Helper: Calculate active years based on commit dates
+const calculateActiveYears = (commitDates: Date[]): string => {
+  if (commitDates.length === 0) return "0+";
+
+  const years = new Set(commitDates.map((date) => new Date(date).getFullYear()));
+
+  return `${years.size}+`;
+};
+
 const processGithubData = (rawData: any): GitHubStats => {
   const stats: GitHubStats = {
     totalContributions: 0,
     languages: [],
     monthlyCommits: Array(12).fill(0),
+    monthlyCommitTrend: { labels: [], counts: [] },
     activities: [],
+    publicRepositories: 0,
+    activeYears: "0+",
     loading: false,
     error: null,
   };
@@ -144,6 +225,10 @@ const processGithubData = (rawData: any): GitHubStats => {
     // Total contributions
     stats.totalContributions =
       rawData?.viewer?.contributionsCollection?.contributionCalendar?.totalContributions || 0;
+
+    // Count public repositories (non-forks)
+    const repositories = rawData?.viewer?.repositories?.nodes || [];
+    stats.publicRepositories = repositories.length; // Already filtered by isFork: false in query
 
     // Process languages
     const languageMap: Record<string, number> = {};
@@ -189,6 +274,7 @@ const processGithubData = (rawData: any): GitHubStats => {
 
     // Process recent commits for timeline
     const commits: CommitActivity[] = [];
+    const allCommitDates: Date[] = []; // Collect for monthly trend
     const now = new Date();
 
    // console.log("GitHub API Response:", rawData);
@@ -202,16 +288,14 @@ const processGithubData = (rawData: any): GitHubStats => {
       if (commits_list.length === 0) {
         console.log(`No commits found for repo: ${repo.nameWithOwner}`);
       }
+      // Collect ALL commit dates for monthly aggregation
+      commits_list.forEach((commit: any) => {
+        allCommitDates.push(new Date(commit.committedDate));
+      });
       // Limit to at most 1 commit per repo to keep timeline diverse
       commits_list.slice(0, 1).forEach((commit: any) => {
         const commitDate = new Date(commit.committedDate);
-        const daysAgo = Math.floor((now.getTime() - commitDate.getTime()) / (1000 * 60 * 60 * 24));
-
-        let timeStr = "Today";
-        if (daysAgo === 1) timeStr = "Yesterday";
-        else if (daysAgo > 1 && daysAgo < 7) timeStr = `${daysAgo} days ago`;
-        else if (daysAgo >= 7 && daysAgo < 30) timeStr = `${Math.floor(daysAgo / 7)} weeks ago`;
-        else timeStr = `${Math.floor(daysAgo / 30)} months ago`;
+        const timeStr = formatTimeAgo(commitDate, now);
 
         commits.push({
           type: "push",
@@ -233,15 +317,9 @@ const processGithubData = (rawData: any): GitHubStats => {
         console.warn("PR without repo name:", pr);
         return;
       }
-      console.log("PR found:", pr.repository.nameWithOwner, pr.title);
+    //   console.log("PR found:", pr.repository.nameWithOwner, pr.title);
       const prDate = new Date(pr.mergedAt);
-      const daysAgo = Math.floor((now.getTime() - prDate.getTime()) / (1000 * 60 * 60 * 24));
-
-      let timeStr = "Today";
-      if (daysAgo === 1) timeStr = "Yesterday";
-      else if (daysAgo > 1 && daysAgo < 7) timeStr = `${daysAgo} days ago`;
-      else if (daysAgo >= 7 && daysAgo < 30) timeStr = `${Math.floor(daysAgo / 7)} weeks ago`;
-      else timeStr = `${Math.floor(daysAgo / 30)} months ago`;
+      const timeStr = formatTimeAgo(prDate, now);
 
       mergedPRs.push({
         type: "merge",
@@ -263,15 +341,9 @@ const processGithubData = (rawData: any): GitHubStats => {
         console.warn("Starred repo without proper data:", repo);
         return;
       }
-      console.log("Starred repo:", repo.owner.login, repo.name);
+    //   console.log("Starred repo:", repo.owner.login, repo.name);
       const starDate = new Date(edge.starredAt);
-      const daysAgo = Math.floor((now.getTime() - starDate.getTime()) / (1000 * 60 * 60 * 24));
-
-      let timeStr = "Today";
-      if (daysAgo === 1) timeStr = "Yesterday";
-      else if (daysAgo > 1 && daysAgo < 7) timeStr = `${daysAgo} days ago`;
-      else if (daysAgo >= 7 && daysAgo < 30) timeStr = `${Math.floor(daysAgo / 7)} weeks ago`;
-      else timeStr = `${Math.floor(daysAgo / 30)} months ago`;
+      const timeStr = formatTimeAgo(starDate, now);
 
       starred.push({
         type: "star",
@@ -290,8 +362,14 @@ const processGithubData = (rawData: any): GitHubStats => {
       .slice(0, 5)
       .map(({ date, ...activity }) => activity); // Remove date field before storing
 
-    console.log("Final activities:", allActivities);
+    // console.log("Final activities:", allActivities);
     stats.activities = allActivities;
+
+    // Aggregate commits by month (last 24 months)
+    stats.monthlyCommitTrend = aggregateCommitsByMonth(allCommitDates, 24);
+
+    // Calculate active years
+    stats.activeYears = calculateActiveYears(allCommitDates);
 
     return stats;
   } catch (err) {
@@ -306,7 +384,10 @@ export const useGithubStats = (): GitHubStats => {
     totalContributions: 0,
     languages: [],
     monthlyCommits: Array(12).fill(0),
+    monthlyCommitTrend: { labels: [], counts: [] },
     activities: [],
+    publicRepositories: 0,
+    activeYears: "0+",
     loading: true,
     error: null,
   });

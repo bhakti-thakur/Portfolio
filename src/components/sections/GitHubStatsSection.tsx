@@ -1,7 +1,8 @@
 import { useGithubStats } from "@/hooks/useGithubStats";
+import CommitTrendChart from "@/components/CommitTrendChart";
 
 const GitHubStatsSection = () => {
-  const { totalContributions, languages, activities, loading, error } = useGithubStats();
+  const { totalContributions, languages, activities, monthlyCommitTrend, publicRepositories, activeYears, loading, error } = useGithubStats();
 
   // Fallback activities if no real data
   const defaultActivities = [
@@ -65,10 +66,8 @@ const GitHubStatsSection = () => {
 
   const primaryLanguage = displayLanguages[0];
 
-  const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
   return (
-    <div id="github-stats" className="scroll-mt-4">
+    <div id="github-stats" className="scroll-mt-4 mb-10">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left Column */}
         <div className="space-y-4">
@@ -86,12 +85,20 @@ const GitHubStatsSection = () => {
 
             <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-border">
               <div className="text-center">
-                <div className="text-xs text-muted-foreground uppercase tracking-wide">PRs OPENED</div>
-                <div className="text-2xl font-semibold mt-1">145</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">Public Repositories</div>
+                <div className="text-2xl font-semibold mt-1">{loading ? "..." : publicRepositories}</div>
               </div>
               <div className="text-center">
-                <div className="text-xs text-muted-foreground uppercase tracking-wide">ISSUES FOUND</div>
-                <div className="text-2xl font-semibold mt-1">32</div>
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">Years Active</div>
+                <div className="text-2xl font-semibold mt-1">{loading ? "..." : activeYears}</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">Preferred Tech</div>
+                <div className="text-xl font-semibold mt-1">Power Platform</div>
+              </div>
+              <div className="text-center">
+                <div className="text-xs text-muted-foreground uppercase tracking-wide">Preferred Language</div>
+                <div className="text-xl font-semibold mt-1">{loading ? "..." : primaryLanguage?.name}</div>
               </div>
             </div>
           </div>
@@ -146,40 +153,24 @@ const GitHubStatsSection = () => {
 
         {/* Right Column */}
         <div className="space-y-4">
-          {/* Commits Chart */}
+          {/* Commits Trend Chart */}
           <div className="power-card p-4">
             <div className="flex items-center justify-between mb-4">
-              <h3 className="power-section-title">COMMITS PER MONTH (2023)</h3>
-              <div className="flex items-center gap-2">
-                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                    <path d="M1.75 3a.75.75 0 000 1.5h10.5a.75.75 0 000-1.5H1.75zm2 4a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"/>
-                  </svg>
-                </button>
-                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                    <path d="M7 3a1.5 1.5 0 110 3 1.5 1.5 0 010-3zM7 8a1.5 1.5 0 110 3 1.5 1.5 0 010-3z"/>
-                  </svg>
-                </button>
-              </div>
+              <h3 className="power-section-title">COMMITS PER MONTH</h3>
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-muted-foreground">
+                <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5a5.5 5.5 0 110-11 5.5 5.5 0 010 11zM8 5a.75.75 0 01.75.75v2.5a.75.75 0 01-1.5 0v-2.5A.75.75 0 018 5zm0 7a1 1 0 100-2 1 1 0 000 2z"/>
+              </svg>
             </div>
-
-            {/* Simple bar chart representation */}
-            <div className="h-32 flex items-end gap-1">
-              {[40, 55, 45, 70, 85, 65, 75, 90, 80, 95, 60, 50].map((height, index) => (
-                <div key={index} className="flex-1 flex flex-col items-center gap-1">
-                  <div 
-                    className="w-full bg-muted rounded-t hover:bg-accent transition-colors"
-                    style={{ height: `${height}%` }}
-                  ></div>
+            {monthlyCommitTrend.labels.length > 0 ? (
+              <CommitTrendChart labels={monthlyCommitTrend.labels} counts={monthlyCommitTrend.counts} />
+            ) : (
+              <div className="h-64 flex flex-col items-center justify-center text-muted-foreground gap-3">
+                <div className="w-full h-full rounded bg-muted-foreground/15 border border-muted-foreground/15 animate-pulse flex items-center justify-center" aria-hidden="true"> 
+                  <div className="text-xs text-muted-foreground">Loading chart data...</div>
                 </div>
-              ))}
-            </div>
-            <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-              {months.map((month) => (
-                <span key={month}>{month}</span>
-              ))}
-            </div>
+                
+              </div>
+            )}
           </div>
 
           {/* Contribution Timeline */}
@@ -240,14 +231,6 @@ const GitHubStatsSection = () => {
               })}
             </div>
 
-            <div className="mt-4 text-center">
-              <a href="#" className="power-link text-sm flex items-center justify-center gap-1">
-                View all activity
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                  <path d="M4.5 2.5l3.5 3.5-3.5 3.5"/>
-                </svg>
-              </a>
-            </div>
           </div>
         </div>
       </div>

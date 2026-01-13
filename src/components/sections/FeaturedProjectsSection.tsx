@@ -110,7 +110,7 @@ const FeaturedProjectsSection = () => {
               <div>
                 <div className="flex justify-between text-sm mb-1">
                   <span className="text-muted-foreground">Commits (YTD)</span>
-                  <span className="font-semibold">1,248</span>
+                  <span className="font-semibold">1,85</span>
                 </div>
                 <div className="h-2 bg-muted rounded-full overflow-hidden">
                   <div className="h-full w-3/4 bg-primary rounded-full"></div>
