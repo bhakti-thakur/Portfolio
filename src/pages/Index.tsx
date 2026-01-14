@@ -64,7 +64,19 @@ const Index = () => {
           />
           
           <main className="flex-1 overflow-y-auto p-4">
-            {renderSection()}
+            {/* Mobile: All sections stacked vertically */}
+            <div className="md:hidden space-y-8">
+              <BasicInfoSection />
+              <TechStackSection />
+              <FeaturedProjectsSection />
+              <GitHubStatsSection />
+              <ConnectSection />
+            </div>
+
+            {/* Desktop/Tablet: Tab-based navigation */}
+            <div className="hidden md:block">
+              {renderSection()}
+            </div>
           </main>
         </div>
       </div>
