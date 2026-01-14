@@ -2,7 +2,7 @@ import { useGithubStats } from "@/hooks/useGithubStats";
 import CommitTrendChart from "@/components/CommitTrendChart";
 
 const GitHubStatsSection = () => {
-  const { totalContributions, languages, activities, monthlyCommitTrend, publicRepositories, activeYears, loading, error } = useGithubStats();
+  const { totalContributions, languages, activities, monthlyCommitTrend, publicRepositories, activeYears, loading } = useGithubStats();
 
   // Fallback activities if no real data
   const defaultActivities = [

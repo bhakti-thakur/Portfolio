@@ -42,13 +42,7 @@ const CommitTrendChart: React.FC<CommitTrendChartProps> = ({
     return style.getPropertyValue("--primary").trim();
   };
 
-  const getAccentColor = () => {
-    const style = getComputedStyle(document.documentElement);
-    return style.getPropertyValue("--accent").trim();
-  };
-
   const primaryHSL = getPrimaryColor() || "300 50% 30%";
-  const accentHSL = getAccentColor() || "207 90% 54%";
 
   // Convert HSL string "300 50% 30%" to rgba
   const hslToRgba = (hsl: string, alpha: number = 1) => {
