@@ -25,9 +25,9 @@ const FeaturedProjectsSection = () => {
 
             <div className="space-y-4">
               {projects.map((project, index) => (
-                <div key={index} className="border border-border rounded p-4">
-                  <div className="flex items-start gap-3">
-                    <div className={`w-6 h-6 rounded ${project.color} flex items-center justify-center text-primary-foreground text-xs font-bold`}>
+                <div key={index} className="border border-border rounded p-4 sm:overflow-hidden hover:shadow-lg transition-shadow">
+                  <div className="flex items-start gap-3 ">
+                    <div className={`hidden sm:flex w-6 h-6 rounded-full ${project.color} items-center justify-center text-primary-foreground text-xs font-bold`}>
                       {project.name.charAt(0)}
                     </div>
                     <div className="flex-1">

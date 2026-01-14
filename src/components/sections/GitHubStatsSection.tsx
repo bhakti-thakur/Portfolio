@@ -75,7 +75,7 @@ const GitHubStatsSection = () => {
           <div className="power-card p-4">
             <h3 className="power-section-title mb-4">TOTAL CONTRIBUTIONS</h3>
             
-            <div className="text-5xl font-light text-primary mb-2">{loading ? "..." : totalContributions}</div>
+            <div className="text-3xl sm:text-5xl font-light text-primary mb-2">{loading ? "..." : totalContributions}</div>
             <div className="flex items-center gap-1 text-sm text-success">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
                 <path d="M7 2l4 5H8v5H6V7H3l4-5z"/>
@@ -86,19 +86,19 @@ const GitHubStatsSection = () => {
             <div className="grid grid-cols-2 gap-4 mt-6 pt-4 border-t border-border">
               <div className="text-center">
                 <div className="text-xs text-muted-foreground uppercase tracking-wide">Public Repositories</div>
-                <div className="text-2xl font-semibold mt-1">{loading ? "..." : publicRepositories}</div>
+                <div className="text-lg sm:text-2xl font-semibold mt-1">{loading ? "..." : publicRepositories}</div>
               </div>
               <div className="text-center">
                 <div className="text-xs text-muted-foreground uppercase tracking-wide">Years Active</div>
-                <div className="text-2xl font-semibold mt-1">{loading ? "..." : activeYears}</div>
+                <div className="text-lg sm:text-2xl font-semibold mt-1">{loading ? "..." : activeYears}</div>
               </div>
               <div className="text-center">
                 <div className="text-xs text-muted-foreground uppercase tracking-wide">Preferred Tech</div>
-                <div className="text-xl font-semibold mt-1">Power Platform</div>
+                <div className="text-base sm:text-xl font-semibold mt-1">Power Platform</div>
               </div>
               <div className="text-center">
                 <div className="text-xs text-muted-foreground uppercase tracking-wide">Preferred Language</div>
-                <div className="text-xl font-semibold mt-1">{loading ? "..." : primaryLanguage?.name}</div>
+                <div className="text-base sm:text-xl font-semibold mt-1">{loading ? "..." : primaryLanguage?.name}</div>
               </div>
             </div>
           </div>

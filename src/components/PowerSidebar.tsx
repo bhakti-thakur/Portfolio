@@ -1,9 +1,10 @@
 interface PowerSidebarProps {
   activeSection: string;
   onNavigate: (section: string) => void;
+  onMenuClick?: () => void;
 }
 
-const PowerSidebar = ({ activeSection, onNavigate }: PowerSidebarProps) => {
+const PowerSidebar = ({ activeSection, onNavigate, onMenuClick }: PowerSidebarProps) => {
   const menuItems = [
     { id: "home", label: "Home", icon: "home" },
   ];
@@ -63,7 +64,7 @@ const PowerSidebar = ({ activeSection, onNavigate }: PowerSidebarProps) => {
     <aside className="w-56 bg-sidebar border-r border-sidebar-border flex flex-col">
       {/* Menu button */}
       <div className="p-3 border-b border-sidebar-border">
-        <button className="p-2 hover:bg-muted rounded">
+        <button onClick={onMenuClick} className="p-2 hover:bg-muted rounded">
           <svg width="18" height="18" viewBox="0 0 18 18" fill="currentColor" className="text-sidebar-foreground">
             <path d="M2.25 4.5h13.5v1.5H2.25v-1.5zm0 4.5h13.5v1.5H2.25V9zm0 4.5h13.5v1.5H2.25v-1.5z"/>
           </svg>
