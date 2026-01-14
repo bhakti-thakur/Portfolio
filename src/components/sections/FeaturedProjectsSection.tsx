@@ -25,7 +25,7 @@ const FeaturedProjectsSection = () => {
 
             <div className="space-y-4">
               {projects.map((project, index) => (
-                <div key={index} className="border border-border rounded p-4 sm:overflow-hidden hover:shadow-lg transition-shadow">
+                <div key={index} className="border border-border rounded p-3 sm:p-4 hover:shadow-lg transition-shadow">
                   <div className="flex items-start gap-3 ">
                     <div className={`hidden sm:flex w-6 h-6 rounded-full ${project.color} items-center justify-center text-primary-foreground text-xs font-bold`}>
                       {project.name.charAt(0)}
@@ -48,7 +48,7 @@ const FeaturedProjectsSection = () => {
                       </div>
                       <p className="text-xs text-muted-foreground">Modified on: {project.modified}</p>
                       
-                      <div className="mt-3 p-3 bg-muted/30 rounded">
+                      <div className="mt-3 p-2 sm:p-3 bg-muted/30 rounded break-words">
                         <ul className="text-sm text-foreground space-y-1">
                           {project.description.map((item, i) => (
                             <li key={i}>• {item}</li>
@@ -56,8 +56,8 @@ const FeaturedProjectsSection = () => {
                         </ul>
                       </div>
                       
-                      <div className="mt-3 flex items-center justify-between">
-                        <div className="flex items-center gap-2">
+                      <div className="mt-3">
+                        <div className="flex items-center flex-wrap gap-1.5 sm:gap-2">
                           {project.tags.map((tag, i) => (
                             <span key={i} className="text-xs px-2 py-0.5 bg-accent/10 text-accent rounded font-medium">
                               {tag}
