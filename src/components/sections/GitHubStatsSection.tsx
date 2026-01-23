@@ -73,7 +73,15 @@ const GitHubStatsSection = () => {
         <div className="space-y-4">
           {/* Total Contributions */}
           <div className="power-card p-4">
-            <h3 className="power-section-title mb-4">TOTAL CONTRIBUTIONS</h3>
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="power-section-title mb-4">TOTAL CONTRIBUTIONS</h3>
+              {/* <span className="text-xs mb-4 rounded font-medium text-muted-foreground flex items-center gap-1">
+                <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="text-muted-foreground">
+                  <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 12.5a5.5 5.5 0 110-11 5.5 5.5 0 010 11zM8 5a.75.75 0 01.75.75v2.5a.75.75 0 01-1.5 0v-2.5A.75.75 0 018 5zm0 7a1 1 0 100-2 1 1 0 000 2z"/>
+                </svg>
+                LAST UPDATED </span> */}
+            </div>
+            
             
             <div className="text-3xl sm:text-5xl font-light text-primary mb-2">{loading ? "..." : totalContributions}</div>
             <div className="flex items-center gap-1 text-sm text-success">
