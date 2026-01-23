@@ -194,14 +194,14 @@ const GitHubStatsSection = () => {
             <div className="space-y-4">
               {displayActivities.map((activity, index) => {
                 // Construct correct GitHub URL based on activity type
-                let repoUrl = "";
-                if (activity.type === "star") {
-                  // Starred repos are already in "owner/repo" format
-                  repoUrl = `https://github.com/${activity.repo}`;
-                } else {
-                  // Own repos (push/merge) just need username prefix
-                  repoUrl = `https://github.com/bhakti-thakur/${activity.repo}`;
-                }
+                let repoUrl = `https://github.com/${activity.repo}`;
+                // if (activity.type === "star") {
+                //   // Starred repos are already in "owner/repo" format
+                //   repoUrl = `https://github.com/${activity.repo}`;
+                // } else {
+                //   // Own repos (push/merge) just need username prefix
+                //   repoUrl = `https://github.com/${activity.repo}`;
+                // }
                 const repoLabel = activity.type === "star"
                   ? activity.repo
                   : (activity.repo.split("/").pop() || activity.repo);
