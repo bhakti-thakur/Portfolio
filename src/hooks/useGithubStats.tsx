@@ -114,12 +114,17 @@ const formatTimeAgo = (fromDate: Date, now: Date): string => {
 const getFromCache = (): GitHubStats | null => {
   try {
     const cached = localStorage.getItem(CACHE_KEY);
-    if (!cached) return null;
+    if (!cached) {
+      console.log("📭 [GitHub Stats] No cached data found");
+      return null;
+    }
 
     const { timestamp, data } = JSON.parse(cached) as CacheData;
     const now = Date.now();
+    const ageInDays = Math.floor((now - timestamp) / (1000 * 60 * 60 * 24));
 
     if (now - timestamp < CACHE_TTL) {
+      console.log(`✅ [GitHub Stats] Using cached data (${ageInDays} days old, TTL: 7 days)`);
       // Ensure new fields exist for backward compatibility
       return {
         ...data,
@@ -130,6 +135,7 @@ const getFromCache = (): GitHubStats | null => {
     }
 
     // Cache expired, clear it
+    console.log(`⏰ [GitHub Stats] Cache expired (${ageInDays} days old) — clearing`);
     localStorage.removeItem(CACHE_KEY);
     return null;
   } catch {
@@ -144,8 +150,9 @@ const saveToCache = (data: GitHubStats): void => {
       data,
     };
     localStorage.setItem(CACHE_KEY, JSON.stringify(cacheData));
+    console.log("💾 [GitHub Stats] Data cached successfully (TTL: 7 days)");
   } catch {
-    console.warn("Failed to cache GitHub stats");
+    console.warn("⚠️ [GitHub Stats] Failed to cache data");
   }
 };
 
@@ -393,6 +400,7 @@ export const useGithubStats = (): GitHubStats => {
   });
 
   useEffect(() => {
+    console.log("🔍 [GitHub Stats] Hook mounted — checking cache...");
     // Try to get cached data first
     const cachedStats = getFromCache();
     if (cachedStats) {
@@ -403,9 +411,11 @@ export const useGithubStats = (): GitHubStats => {
     // Fetch fresh data if cache expired
     const fetchGithubStats = async () => {
       try {
+        console.log("🌐 [GitHub Stats] Fetching fresh data from GitHub GraphQL API...");
         const token = import.meta.env.VITE_GITHUB_TOKEN;
         
         if (!token) {
+          console.error("❌ [GitHub Stats] Token not configured");
           setStats((prev) => ({
             ...prev,
             loading: false,
@@ -430,15 +440,18 @@ export const useGithubStats = (): GitHubStats => {
         const result = await response.json();
 
         if (result.errors) {
+          console.error("❌ [GitHub Stats] GraphQL errors:", result.errors);
           throw new Error(result.errors[0].message || "GraphQL query failed");
         }
 
+        console.log("✅ [GitHub Stats] API response received successfully");
         const processedStats = processGithubData(result.data);
         processedStats.loading = false;
 
         // Save to cache
         saveToCache(processedStats);
         setStats(processedStats);
+        console.log("🎉 [GitHub Stats] Data processed and state updated");
       } catch (err) {
         const errorMessage = err instanceof Error ? err.message : "Unknown error";
         console.error("GitHub API Error:", errorMessage);

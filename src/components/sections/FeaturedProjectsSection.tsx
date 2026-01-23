@@ -191,7 +191,7 @@ const FeaturedProjectsSection = () => {
 
                 setTimeout(() => {
                   window.dispatchEvent(new Event("contact-form-highlight"));
-                }, 100);
+                }, 200);
               }}
               className="w-full py-2 bg-card text-primary rounded font-medium text-sm hover:bg-card/90 transition-colors"
             >
