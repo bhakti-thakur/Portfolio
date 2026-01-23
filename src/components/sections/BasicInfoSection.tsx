@@ -64,7 +64,7 @@ const BasicInfoSection = () => {
           <div className="power-card p-4">
             <h3 className="power-section-title mb-4">PROFILE SUMMARY</h3>
             <p className="text-sm text-foreground leading-relaxed">
-              Entry-level Dynamics 365 & Power Platform Developer with hands-on experience delivering business-focused CRM and automation solutions using Microsoft Dynamics 365 CE, Power Apps, Power Automate, and Dataverse. Proven ability to customize CRM systems using JavaScript, design model-driven applications, and automate workflows to reduce manual effort. Strong foundation in full-stack development, enabling seamless integration between Power Platform solutions and custom web applications 
+              Entry-level Dynamics 365 & Power Platform Developer with hands-on experience delivering business-focused CRM and automation solutions using Microsoft Dynamics 365 CE, Power Apps, Power Automate, and Dataverse. Proven ability to customize CRM systems using JavaScript, design model-driven applications, and automate workflows to reduce manual effort. Strong foundation in full-stack development, enabling seamless integration between Power Platform solutions and custom web applications.
             </p>
           </div>
 

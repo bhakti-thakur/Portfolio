@@ -43,21 +43,21 @@ const PowerToolbar = ({ title, subtitle, onMenuClick }: PowerToolbarProps) => {
     <div className="bg-card border-b border-border">
       {/* Action bar */}
       <div className="flex items-center gap-2 px-4 py-2 border-b border-border">
-        <button className="p-1.5 hover:bg-muted rounded text-muted-foreground">
+        {/* <button className="p-1.5 hover:bg-muted rounded text-muted-foreground">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor">
             <path d="M10 3L4 8l6 5V3z"/>
           </svg>
         </button>
-        <div className="w-px h-5 bg-border mx-1"></div>
+        <div className="w-px h-5 bg-border mx-1"></div> */}
         
-        <button className="flex items-center gap-1.5 px-2 py-1 text-sm text-foreground hover:bg-muted rounded"> 
+        <button className="flex items-center gap-1.5 px-2 py-1 text-sm text-foreground opacity-50 hover:bg-muted rounded"> 
           <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
             <path fill-rule="evenodd" clip-rule="evenodd" d="M18.1716 1C18.702 1 19.2107 1.21071 19.5858 1.58579L22.4142 4.41421C22.7893 4.78929 23 5.29799 23 5.82843V20C23 21.6569 21.6569 23 20 23H4C2.34315 23 1 21.6569 1 20V4C1 2.34315 2.34315 1 4 1H18.1716ZM4 3C3.44772 3 3 3.44772 3 4V20C3 20.5523 3.44772 21 4 21L5 21L5 15C5 13.3431 6.34315 12 8 12L16 12C17.6569 12 19 13.3431 19 15V21H20C20.5523 21 21 20.5523 21 20V6.82843C21 6.29799 20.7893 5.78929 20.4142 5.41421L18.5858 3.58579C18.2107 3.21071 17.702 3 17.1716 3H17V5C17 6.65685 15.6569 8 14 8H10C8.34315 8 7 6.65685 7 5V3H4ZM17 21V15C17 14.4477 16.5523 14 16 14L8 14C7.44772 14 7 14.4477 7 15L7 21L17 21ZM9 3H15V5C15 5.55228 14.5523 6 14 6H10C9.44772 6 9 5.55228 9 5V3Z" fill="currentColor"/>
           </svg>
           <span className="hidden sm:inline">Save</span>
         </button>
         
-        <button className="hidden md:flex items-center gap-1.5 px-2 py-1 text-sm text-foreground hover:bg-muted rounded">
+        <button className="hidden md:flex items-center gap-1.5 px-2 py-1 text-sm text-foreground opacity-50 hover:bg-muted rounded">
           <svg
             width="18"
             height="18"
@@ -83,7 +83,7 @@ const PowerToolbar = ({ title, subtitle, onMenuClick }: PowerToolbarProps) => {
           New
         </button>
 
-        <button className="hidden lg:flex items-center gap-1.5 px-2 py-1 text-sm text-foreground hover:bg-muted rounded">
+        <button className="hidden lg:flex items-center gap-1.5 px-2 py-1 text-sm text-foreground opacity-50 hover:bg-muted rounded">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
             <path d="M21 3V8M21 8H16M21 8L18 5.29168C16.4077 3.86656 14.3051 3 12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.2832 21 19.8675 18.008 20.777 14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
           </svg>

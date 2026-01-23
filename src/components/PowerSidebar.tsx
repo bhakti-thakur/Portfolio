@@ -65,7 +65,7 @@ const PowerSidebar = ({ activeSection, onNavigate, onMenuClick }: PowerSidebarPr
       {/* Menu button */}
       <div className="p-3 border-b border-sidebar-border">
         <button onClick={onMenuClick} className="p-2 hover:bg-muted rounded">
-          <svg width="20" height="20" viewBox="0 0 18 18" fill="currentColor" className="text-primary">
+          <svg width="20" height="20" viewBox="0 0 18 18" fill="currentColor" className="md:text-sidebar-foreground opacity-50 sm:text-primary ">
             <rect x="2.25" y="3.75" width="13.5" height="2.5" rx="1" />
             <rect x="2.25" y="7.75" width="13.5" height="2.5" rx="1" />
             <rect x="2.25" y="11.75" width="13.5" height="2.5" rx="1" />
@@ -92,9 +92,9 @@ const PowerSidebar = ({ activeSection, onNavigate, onMenuClick }: PowerSidebarPr
 
         {/* Recent section */}
         <div className="mt-4">
-          <button className="w-full flex items-center justify-between px-4 py-2 text-sm text-sidebar-foreground hover:bg-muted">
+          <button className="w-full flex items-center justify-between px-4 py-2 text-sm text-sidebar-foreground opacity-70 hover:bg-muted">
             <div className="flex items-center gap-2">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="opacity-70">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="opacity-50">
                 <path d="M8 1a7 7 0 100 14A7 7 0 008 1zm0 1.5a5.5 5.5 0 110 11 5.5 5.5 0 010-11zM7.25 4.5v4.25H11v1.5H7.25a.75.75 0 01-.75-.75V4.5h1.5z"/>
               </svg>
               <span>Recent</span>
@@ -107,7 +107,7 @@ const PowerSidebar = ({ activeSection, onNavigate, onMenuClick }: PowerSidebarPr
 
         {/* Pinned section */}
         <div className="mt-1">
-          <button className="w-full flex items-center justify-between px-4 py-2 text-sm text-sidebar-foreground hover:bg-muted">
+          <button className="w-full flex items-center justify-between px-4 py-2 text-sm text-sidebar-foreground opacity-70 hover:bg-muted">
             <div className="flex items-center gap-2">
               <svg fill="currentColor" height="12" width="12" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg"  viewBox="0 0 512.492 512.492">
                 <g>
@@ -154,7 +154,7 @@ const PowerSidebar = ({ activeSection, onNavigate, onMenuClick }: PowerSidebarPr
 
       {/* Footer */}
       <div className="p-3 border-t border-sidebar-border">
-        <button className="flex items-center gap-2 text-sm text-sidebar-foreground hover:text-sidebar-accent-foreground">
+        <button className="flex items-center gap-2 text-sm text-sidebar-foreground opacity-50 hover:text-sidebar-accent-foreground">
           <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" className="opacity-70">
             <path d="M8 1a.75.75 0 01.75.75v5.5h5.5a.75.75 0 010 1.5h-5.5v5.5a.75.75 0 01-1.5 0v-5.5h-5.5a.75.75 0 010-1.5h5.5v-5.5A.75.75 0 018 1z"/>
           </svg>
