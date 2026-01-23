@@ -15,8 +15,15 @@ const Index = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
 
   const handleNavigate = (section: string) => {
-    setActiveSection(section === "home" ? "basic-info" : section);
+    const targetId = section === "home" ? "basic-info" : section;
+    setActiveSection(targetId);
     setIsSidebarOpen(false); // Close drawer on mobile after navigation
+
+    // Scroll to section if it exists (mobile stack); no effect on desktop when sections are hidden
+    requestAnimationFrame(() => {
+      const target = document.getElementById(targetId);
+      target?.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
   };
 
   const renderSection = () => {
@@ -68,8 +75,8 @@ const Index = () => {
             <div className="md:hidden space-y-8">
               <BasicInfoSection />
               <TechStackSection />
-              <FeaturedProjectsSection />
               <GitHubStatsSection />
+              <FeaturedProjectsSection />
               <ConnectSection />
             </div>
 

@@ -1,7 +1,7 @@
 import { connections } from "@/data/connections";
 import { timeline } from "@/data/timeline";
 import emailjs from "@emailjs/browser"
-import { useRef } from "react"
+import { useEffect, useRef, useState } from "react"
 import powerapps from "@/assets/powerapps.svg";
 import react from "@/assets/react.svg";
 import LinkedInIcon from "@/assets/linkedin.svg";
@@ -9,6 +9,17 @@ import GitHubIcon from "@/assets/github.svg";
 
 const ConnectSection = () => {
   const formRef = useRef<HTMLFormElement>(null);
+  const [flashContact, setFlashContact] = useState(false);
+
+  useEffect(() => {
+    const handleFlash = () => {
+      setFlashContact(true);
+      setTimeout(() => setFlashContact(false), 500);
+    };
+
+    window.addEventListener("contact-form-highlight", handleFlash);
+    return () => window.removeEventListener("contact-form-highlight", handleFlash);
+  }, []);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
@@ -47,8 +58,54 @@ const ConnectSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* Left Column */}
         <div className="space-y-4">
-          {/* Primary Contact Channels */}
+          {/* Timeline */}
           <div className="power-card p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="power-section-title">TIMELINE</h3>
+              <div className="flex items-center gap-2">
+                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M7 1a.5.5 0 01.5.5v5h5a.5.5 0 010 1h-5v5a.5.5 0 01-1 0v-5h-5a.5.5 0 010-1h5v-5A.5.5 0 017 1z"/>
+                  </svg>
+                </button>
+                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
+                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
+                    <path d="M1.75 3a.75.75 0 000 1.5h10.5a.75.75 0 000-1.5H1.75zm2 4a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              {timeline.map((item, index) => (
+                <div key={index} className="flex gap-3">
+                  <div className={`w-2 h-2 rounded-full mt-2 ${item.active ? "bg-primary" : "bg-muted-foreground"}`}></div>
+                  <div className="flex-1">
+                    <div className="text-xs text-muted-foreground">{item.date}</div>
+                    <div className="mt-1 p-3 bg-muted/30 rounded">
+                      <div className="flex items-center gap-2 text-sm font-medium">
+                        <img 
+                          src={IconMap[item.icon]} 
+                          alt={item.icon}
+                          width="14"
+                          height="14"
+                        />
+                        {item.title}
+                      </div>
+                      <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-4 text-center">
+              {/*<a href="#" className="power-link text-sm">View more activities</a> */}
+            </div>
+          </div>
+          
+          {/* Primary Contact Channels */}
+          <div className="power-card p-4 transition-colors duration-300 ">
             <h3 className="power-section-title mb-4">PRIMARY CONTACT CHANNELS</h3>
             
             <div className="space-y-4">
@@ -77,10 +134,50 @@ const ConnectSection = () => {
                 </div>
               </div>
             </div>
+          </div>          
+        </div>
+
+        {/* Right Column */}
+        <div className="space-y-4">
+          {/* Connect Options */}
+          <div className="power-card p-4">
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="power-section-title">CONNECT OPTIONS</h3>
+              <button className="text-sm text-accent flex items-center gap-1 ">
+                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
+                  <path d="M6 1a.5.5 0 01.5.5v4h4a.5.5 0 010 1h-4v4a.5.5 0 01-1 0v-4h-4a.5.5 0 010-1h4v-4A.5.5 0 016 1z"/>
+                </svg>
+                Add Connection
+              </button>
+            </div>
+            
+            <div className="grid grid-cols-2 gap-3">
+              {connections.map((conn, index) => (
+                <a href={conn.link} target="_blank" >
+                  <div key={index} className="border border-border rounded p-3 hover:border-primary/30 transition-colors">
+                    <div className="flex items-start justify-between mb-2">
+                      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center">
+                        <img 
+                          src={IconMap[conn.icon]} 
+                          alt={conn.icon}
+                          width="40"
+                          height="40"
+                        />
+                      </div>
+                      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" className="text-muted-foreground">
+                        <path d="M3 3h5v1H4v6h6V5h1v5.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5zm6 0h2.5v2.5h-1V4.2L7.2 7.5l-.7-.7 3.3-3.3H8.5v-1z"/>
+                      </svg>
+                    </div>
+                    <h4 className="font-medium text-sm">{conn.name}</h4>
+                    <p className="text-xs text-muted-foreground">{conn.subtitle}</p>
+                  </div>
+                </a>
+              ))}
+            </div>
           </div>
 
           {/* CONTACT FORM */}
-          <div className="power-card p-4">
+          <div className={`power-card p-4 ${flashContact ? "bg-muted/60 ring-2 ring-primary/40" : ""}`} id="contact-form">
             <div className="flex items-center justify-between mb-4">
               <h3 className="power-section-title">CONTACT FORM</h3>
               <button className="p-1 hover:bg-muted rounded text-muted-foreground">
@@ -134,92 +231,6 @@ const ConnectSection = () => {
                   Send Message
                 </button>
             </form>
-          </div>
-        </div>
-
-        {/* Right Column */}
-        <div className="space-y-4">
-          {/* Connect Options */}
-          <div className="power-card p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="power-section-title">CONNECT OPTIONS</h3>
-              <button className="text-sm text-accent flex items-center gap-1 ">
-                <svg width="12" height="12" viewBox="0 0 12 12" fill="currentColor">
-                  <path d="M6 1a.5.5 0 01.5.5v4h4a.5.5 0 010 1h-4v4a.5.5 0 01-1 0v-4h-4a.5.5 0 010-1h4v-4A.5.5 0 016 1z"/>
-                </svg>
-                Add Connection
-              </button>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              {connections.map((conn, index) => (
-                <a href={conn.link} target="_blank" >
-                  <div key={index} className="border border-border rounded p-3 hover:border-primary/30 transition-colors">
-                    <div className="flex items-start justify-between mb-2">
-                      <div className="w-10 h-10 bg-muted rounded flex items-center justify-center">
-                        <img 
-                          src={IconMap[conn.icon]} 
-                          alt={conn.icon}
-                          width="40"
-                          height="40"
-                        />
-                      </div>
-                      <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor" className="text-muted-foreground">
-                        <path d="M3 3h5v1H4v6h6V5h1v5.5a.5.5 0 01-.5.5h-7a.5.5 0 01-.5-.5v-7a.5.5 0 01.5-.5zm6 0h2.5v2.5h-1V4.2L7.2 7.5l-.7-.7 3.3-3.3H8.5v-1z"/>
-                      </svg>
-                    </div>
-                    <h4 className="font-medium text-sm">{conn.name}</h4>
-                    <p className="text-xs text-muted-foreground">{conn.subtitle}</p>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-
-          {/* Timeline */}
-          <div className="power-card p-4">
-            <div className="flex items-center justify-between mb-4">
-              <h3 className="power-section-title">TIMELINE</h3>
-              <div className="flex items-center gap-2">
-                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                    <path d="M7 1a.5.5 0 01.5.5v5h5a.5.5 0 010 1h-5v5a.5.5 0 01-1 0v-5h-5a.5.5 0 010-1h5v-5A.5.5 0 017 1z"/>
-                  </svg>
-                </button>
-                <button className="p-1 hover:bg-muted rounded text-muted-foreground">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="currentColor">
-                    <path d="M1.75 3a.75.75 0 000 1.5h10.5a.75.75 0 000-1.5H1.75zm2 4a.75.75 0 000 1.5h6.5a.75.75 0 000-1.5h-6.5z"/>
-                  </svg>
-                </button>
-              </div>
-            </div>
-
-            <div className="space-y-4">
-              {timeline.map((item, index) => (
-                <div key={index} className="flex gap-3">
-                  <div className={`w-2 h-2 rounded-full mt-2 ${item.active ? "bg-primary" : "bg-muted-foreground"}`}></div>
-                  <div className="flex-1">
-                    <div className="text-xs text-muted-foreground">{item.date}</div>
-                    <div className="mt-1 p-3 bg-muted/30 rounded">
-                      <div className="flex items-center gap-2 text-sm font-medium">
-                        <img 
-                          src={IconMap[item.icon]} 
-                          alt={item.icon}
-                          width="14"
-                          height="14"
-                        />
-                        {item.title}
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-1">{item.description}</p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="mt-4 text-center">
-              {/*<a href="#" className="power-link text-sm">View more activities</a> */}
-            </div>
           </div>
         </div>
       </div>

@@ -1,5 +1,24 @@
 import { projects, collaborators } from "@/data/projects";
 
+function goToConnect() {
+  const isMobile = window.matchMedia("(max-width: 767px)").matches;
+
+  if (isMobile) {
+    // Mobile → scroll to section
+    document
+      .getElementById("contact-form")
+      ?.scrollIntoView({ behavior: "smooth" });
+  } else {
+    // Desktop / Tablet → trigger existing navigation
+    const connectButton = Array.from(
+      document.querySelectorAll("button")
+    ).find(btn => btn.textContent?.includes("Connect"));
+
+    connectButton?.click();
+  }
+}
+
+
 const FeaturedProjectsSection = () => {
   return (
     <div id="featured-projects" className="scroll-mt-4">
@@ -168,10 +187,11 @@ const FeaturedProjectsSection = () => {
             </p>
             <button 
               onClick={() => {
-                const connectButton = Array.from(document.querySelectorAll('button')).find(btn => 
-                  btn.textContent?.includes('Connect')
-                );
-                connectButton?.click();
+                goToConnect();
+
+                setTimeout(() => {
+                  window.dispatchEvent(new Event("contact-form-highlight"));
+                }, 100);
               }}
               className="w-full py-2 bg-card text-primary rounded font-medium text-sm hover:bg-card/90 transition-colors"
             >
